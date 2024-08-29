@@ -7,6 +7,10 @@
   "sponsor": {
     "url": "https://buymeacoffee.com/omrigr123c"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/OmriGM/code-metrics"
+  },
   "engines": {
     "vscode": "^1.92.0"
   },
