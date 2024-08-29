@@ -1,0 +1,251 @@
+body {
+  font-family: var(--vscode-font-family);
+  color: var(--vscode-editor-foreground);
+}
+
+#metrics-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.file-info-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  gap: 8px;
+}
+
+.file-info,
+.line-limit {
+  font-weight: 600;
+}
+
+.line-limit {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+  margin-right: 8px;
+}
+
+.line-limit:hover {
+  cursor: pointer;
+  text-decoration: underline;
+  color: var(--vscode-button-hoverBackground);
+}
+
+.pencil-icon {
+  width: 12px;
+  height: 12px;
+  margin-bottom: -2px;
+}
+
+.max-lines-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 450px) {
+  .max-lines-info {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.card-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  max-width: 360px;
+}
+
+.card {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  background-color: var(--vscode-input-background);
+  border: 1px solid var(--vscode-input-border);
+  padding: 6px;
+  display: flex;
+  border-radius: 4px;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.card:hover {
+  background-color: var(--vscode-list-hoverBackground);
+}
+
+.card-header {
+  flex-direction: column;
+  align-items: flex-start;
+  display: flex;
+}
+
+.function-name {
+  color: var(--vscode-editor-foreground);
+  font-weight: bolder;
+  font-size: 12px;
+  width: 45%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hide-button {
+  cursor: pointer;
+  z-index: 1; /* Ensure the button is clickable over the card */
+}
+
+.hide-button:hover {
+  color: var(--vscode-button-hoverBackground);
+}
+
+.line-range {
+  color: var(--vscode-descriptionForeground);
+}
+
+.line-count {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--vscode-editor-foreground);
+}
+
+.line-count > span {
+  font-weight: 400;
+  font-size: 11px;
+}
+
+@media screen and (min-width: 212px) {
+  .card-header {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+.progress-container {
+  background-color: var(--vscode-editorIndentGuide-activeBackground);
+  border-radius: 4px;
+  height: 8px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  transition: width 2s ease-in-out;
+}
+
+.card.green .progress-bar {
+  background-color: var(--vscode-charts-green);
+}
+
+.card.yellow .progress-bar {
+  background-color: var(--vscode-charts-yellow);
+}
+
+.card.orange .progress-bar {
+  background-color: var(--vscode-charts-orange);
+}
+
+.card.red .progress-bar {
+  background-color: var(--vscode-charts-red);
+}
+
+#hidden-items-container {
+  margin-top: 20px;
+  background-color: var(--vscode-editor-background);
+}
+
+.hidden-items-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.hidden-items-header:hover {
+  background-color: var(--vscode-list-hoverBackground);
+}
+
+.hidden-items-header h3 {
+  margin: 0;
+  color: var(--vscode-foreground);
+  font-size: 14px;
+}
+
+.collapse-icon {
+  font-size: 12px;
+  color: var(--vscode-foreground);
+}
+
+.hidden-items-list {
+  padding: 10px;
+}
+
+.hidden-item-card {
+  background-color: var(--vscode-editor-background);
+  border: 1px solid var(--vscode-widget-border);
+  border-radius: 4px;
+  padding: 8px;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hidden-item-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-start;
+  margin-bottom: 4px;
+}
+
+.hidden-item-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hidden-item-card .function-name {
+  color: var(--vscode-editor-foreground);
+  font-weight: bolder;
+  font-size: 12px;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hidden-item-card .line-range,
+.hidden-item-card .line-count {
+  font-size: 12px;
+  color: var(--vscode-descriptionForeground);
+}
+
+.show-button {
+  background-color: var(--vscode-button-secondaryBackground);
+  color: var(--vscode-button-secondaryForeground);
+  border: none;
+  padding: 4px 8px;
+  cursor: pointer;
+  font-size: 12px;
+  border-radius: 2px;
+}
+
+.show-button:hover {
+  background-color: var(--vscode-button-secondaryHoverBackground);
+}

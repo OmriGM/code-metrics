@@ -1,0 +1,95 @@
+{
+  "name": "code-metric",
+  "displayName": "Code Metrics",
+  "description": "An extension that calculates code metrics for your code, helping your write more readable and maintainable code.",
+  "version": "0.0.1",
+  "publisher": "OmriGrossman",
+  "sponsor": {
+    "url": "https://buymeacoffee.com/omrigr123c"
+  },
+  "engines": {
+    "vscode": "^1.92.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Other"
+  ],
+  "keywords": [
+    "code",
+    "javascript",
+    "typescript",
+    "python",
+    "java",
+    "react",
+    "metrics",
+    "tree-sitter",
+    "webview",
+    "readability",
+    "maintainability"
+  ],
+  "icon": "assets/extension-logo.png",
+  "galleryBanner": {
+    "color": "#6490d7",
+    "theme": "light"
+  },
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "views": {
+      "explorer": [
+        {
+          "type": "webview",
+          "id": "codeMetrics.metricsView",
+          "icon": "assets/webview-icon.svg",
+          "name": "Code Metrics"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "codeMetrics.setLineCountThreshold",
+        "title": "Code Metrics: Set Max Lines Count"
+      }
+    ],
+    "configuration": {
+      "title": "Code Metrics",
+      "properties": {
+        "codeMetrics.lineCountThreshold": {
+          "type": "number",
+          "default": 50,
+          "description": "The line count threshold for function complexity"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.17.7",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "^16.18.105",
+    "@types/vscode": "^1.92.0",
+    "@typescript-eslint/eslint-plugin": "^6.4.1",
+    "@typescript-eslint/parser": "^6.4.1",
+    "@vscode/test-electron": "^2.3.4",
+    "eslint": "^8.47.0",
+    "glob": "^10.3.3",
+    "mocha": "^10.2.0",
+    "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "tree-sitter": "^0.21.1",
+    "tree-sitter-java": "^0.21.0",
+    "tree-sitter-javascript": "^0.21.4",
+    "tree-sitter-python": "^0.21.0",
+    "tree-sitter-typescript": "^0.21.2",
+    "web-tree-sitter": "^0.22.6"
+  }
+}
