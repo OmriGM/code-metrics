@@ -78,20 +78,6 @@ export class CodeParser {
     const endLine = endPosition.row;
     const lineCount = endLine - startLine + 1;
 
-    // let name: string;
-    // if (node.type === 'arrow_function') {
-    //   const parent = node.parent;
-    //   if (parent?.type === 'variable_declarator') {
-    //     name = parent.childForFieldName('name')?.text || '(anonymous)';
-    //   } else if (parent?.type === 'pair' && parent.parent?.type === 'object') {
-    //     name = parent.childForFieldName('key')?.text || '(anonymous)';
-    //   } else {
-    //     name = '(anonymous)';
-    //   }
-    // } else {
-    //   name = node.childForFieldName('name')?.text || '(anonymous)';
-    // }
-
     const currentThreshold =
       vscode.workspace.getConfiguration().get<number>('codeMetrics.lineCountThreshold') ||
       LINE_COUNT_THRESHOLD;

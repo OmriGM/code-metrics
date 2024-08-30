@@ -1,7 +1,7 @@
-# Code Metrics VSCode Extension
+# Live Code Metrics VSCode Extension
 
 
-Code Metrics is a VS Code extension that provides real-time analysis of function sizes in your code. Supporting JavaScript, TypeScript, Java, and Python, it helps maintain clean and maintainable code by visualizing function lengths against customizable thresholds.
+Live Code Metrics is a VS Code extension that provides real-time analysis of function sizes in your code. Supporting JavaScript, TypeScript, Java, and Python, it helps maintain clean and maintainable code by visualizing function lengths against customizable thresholds.
 
 - **Real-time Function Analysis**: Automatically detects and displays functions, methods, and classes in your open files.
 - **Line Count Visualization**: Shows the number of lines for each code section, along with its name and location in the file.
@@ -14,7 +14,7 @@ Code Metrics is a VS Code extension that provides real-time analysis of function
   <img src="https://github.com/OmriGM/code-metrics/blob/main/assets/extension-demo.gif?raw=true"/>
 </div>
 
-## Why Code Metrics Matter
+## Why having small pieces of code matters
 
 Maintaining smaller, focused functions in your codebase offers numerous benefits:
 
@@ -25,31 +25,31 @@ Maintaining smaller, focused functions in your codebase offers numerous benefits
 5. **Easier Collaboration**: Smaller functions lead to fewer merge conflicts and easier code reviews.
 6. **Increased Reusability**: Well-defined, focused functions are more likely to be reusable in other parts of your codebase.
 
-**By using the Code Metrics extension, you're taking a proactive step towards writing cleaner, more efficient code.**
+**By using the Live Code Metrics extension, you're taking a proactive step towards writing cleaner, more efficient code.**
 
 ## Installation
 
 1. Open Visual Studio Code
 2. Go to the Extensions view (Ctrl+Shift+X or Cmd+Shift+X)
-3. Search for "Code Metrics"
+3. Search for "Live Code Metrics"
 4. Click Install
 
 ## Usage
 
 1. Open a supported file (JavaScript, TypeScript, Java, or Python)
-2. Navigate to the Explorer tab and find the "Code Metrics" section
+2. Navigate to the Explorer tab and find the "Live Code Metrics" section
 3. The extension will automatically display metrics for your open file
 
 To set a custom maximum line threshold:
 
-- Click on the "Max lines" button in the Code Metrics view, or
-- Open the Command Palette (Ctrl+Shift+P or Cmd+Shift+P) and run "Code Metrics: Set Max Lines Count"
+- Click on the "Max lines" button in the Live Code Metrics view, or
+- Open the Command Palette (Ctrl+Shift+P or Cmd+Shift+P) and run "Live Code Metrics: Set Max Lines Count"
 
 ## Customization
 
-You can customize the position of the Code Metrics view for easier access:
+You can customize the position of the Live Code Metrics view for easier access:
 
-- Drag the Code Metrics view to the primary side bar to keep it always visible
+- Drag the Live Code Metrics view to the primary side bar to keep it always visible
 - If you've moved it to the primary side bar, you can drag it back to the Explorer tab at any time
 <br>
 <br>

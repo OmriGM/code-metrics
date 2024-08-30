@@ -1,6 +1,6 @@
 {
-  "name": "code-metric",
-  "displayName": "Code Metrics",
+  "name": "live-code-metric",
+  "displayName": "Live Code Metrics",
   "description": "An extension that calculates code metrics for your code, helping your write more readable and maintainable code.",
   "version": "0.0.1",
   "publisher": "OmriGrossman",
@@ -45,18 +45,18 @@
           "type": "webview",
           "id": "codeMetrics.metricsView",
           "icon": "assets/webview-icon.svg",
-          "name": "Code Metrics"
+          "name": "Live Code Metrics"
         }
       ]
     },
     "commands": [
       {
         "command": "codeMetrics.setLineCountThreshold",
-        "title": "Code Metrics: Set Max Lines Count"
+        "title": "Live Code Metrics: Set Max Lines Count"
       }
     ],
     "configuration": {
-      "title": "Code Metrics",
+      "title": "Live Code Metrics",
       "properties": {
         "codeMetrics.lineCountThreshold": {
           "type": "number",
