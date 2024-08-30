@@ -1,13 +1,18 @@
 # Code Metrics VSCode Extension
 
-## Overview
 
-Code Metrics is a VS Code extension that provides real-time analysis of function sizes in your code. Supporting JavaScript, TypeScript, Java, and Python, it helps maintain clean and maintainable code by visualizing function lengths against customizable thresholds. 
+Code Metrics is a VS Code extension that provides real-time analysis of function sizes in your code. Supporting JavaScript, TypeScript, Java, and Python, it helps maintain clean and maintainable code by visualizing function lengths against customizable thresholds.
 
 - **Real-time Function Analysis**: Automatically detects and displays functions, methods, and classes in your open files.
 - **Line Count Visualization**: Shows the number of lines for each code section, along with its name and location in the file.
 - **Progress Bar**: Visual representation of how close each function is to the maximum line threshold.
 - **Customizable Threshold**: Set your own maximum line count to suit your team's coding standards.
+
+<br>
+
+<div align='center' height='60px'>
+  <img src="https://github.com/OmriGM/code-metrics/blob/main/assets/extension-demo.gif?raw=true"/>
+</div>
 
 ## Why Code Metrics Matter
 
@@ -46,6 +51,11 @@ You can customize the position of the Code Metrics view for easier access:
 
 - Drag the Code Metrics view to the primary side bar to keep it always visible
 - If you've moved it to the primary side bar, you can drag it back to the Explorer tab at any time
+<br>
+<br>
+<div align='center' height='60px'>
+  <img src="https://github.com/OmriGM/code-metrics/blob/main/assets/extension-screenshot-demo.png?raw=true"/>
+</div>
 
 
 ## Feedback and Contributions
@@ -55,3 +65,5 @@ Your feedback and contributions are welcome! Please feel free to submit issues o
 ## License
 
 [MIT License](LICENSE)
+
+</div>
