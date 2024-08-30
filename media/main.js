@@ -13,6 +13,13 @@ const FEATURE_FLAGS = {
   hiddenFiles: false,
 };
 
+function sendAnalytics(eventName, eventProps) {
+  postMessage({
+    command: 'sendAnalytics',
+    value: { eventName, eventProps },
+  });
+}
+
 const vscode = acquireVsCodeApi();
 let hiddenItems = [];
 let isHiddenListCollapsed = true;
@@ -32,19 +39,6 @@ window.addEventListener('message', (event) => {
       hiddenItems = [];
       updateContent({ functions, fileName, totalLines, maxLinesThreshold });
       break;
-  }
-});
-
-// TODO: Add a button to open the file in the editor when clicked, use the startLine
-// and endLine to scroll to the function in the editor
-document.getElementById('metrics-container').addEventListener('click', (event) => {
-  const target = event.target;
-  if (target.classList.contains('function-name')) {
-    const functionName = target.textContent;
-    vscode.postMessage({
-      type: 'openFile',
-      functionName,
-    });
   }
 });
 
@@ -106,7 +100,7 @@ function goToLine(line) {
     line: line,
   });
 }
-function changeMaxLines(line) {
+function changeMaxLines() {
   vscode.postMessage({
     command: 'openSetLineCountThreshold',
   });

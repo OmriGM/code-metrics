@@ -10,6 +10,7 @@ import {
   YELLOW_THRESHOLD,
 } from './constants';
 import { FunctionInfo, Language, SupportedLanguage } from './types';
+import { mixpanelService } from './mixpanel';
 const { tsx, typescript } = require('tree-sitter-typescript'); // Used require instead of import to avoid TypeScript error TS2714
 
 export class CodeParser {
@@ -20,6 +21,7 @@ export class CodeParser {
     this.parser = new Parser();
     this.languageParsers = {
       javascript: JavaScript,
+      javascriptreact: JavaScript,
       typescript: typescript,
       typescriptreact: tsx,
       python: Python,
@@ -29,31 +31,45 @@ export class CodeParser {
 
   // Your existing parseDocument function here
   parseDocument(document: vscode.TextDocument): FunctionInfo[] {
+    const functions: FunctionInfo[] = [];
     const languageId = document.languageId as SupportedLanguage;
 
     if (!this.languageParsers[languageId]) {
       console.warn(`Unsupported language: ${languageId}`);
+      mixpanelService.trackError('Error', {
+        type: 'unsupportedLanguage',
+        label: 'Unsupported language',
+        value: languageId,
+      });
       return [];
     }
+    try {
+      this.parser.setLanguage(this.languageParsers[languageId]);
+      const sourceCode = document.getText();
+      const tree = this.parser.parse(sourceCode);
 
-    this.parser.setLanguage(this.languageParsers[languageId]);
-    const sourceCode = document.getText();
-    const tree = this.parser.parse(sourceCode);
+      const functionNodeTypes = this._getFunctionNodeTypes(languageId);
 
-    const functionNodeTypes = this._getFunctionNodeTypes(languageId);
-    const functions: FunctionInfo[] = [];
-
-    tree.rootNode.descendantsOfType(functionNodeTypes).forEach((node) => {
-      functions.push(this._analyzeFunctionNode(node, sourceCode, document, languageId));
-    });
-
+      tree.rootNode.descendantsOfType(functionNodeTypes).forEach((node) => {
+        functions.push(this._analyzeFunctionNode(node, sourceCode, document, languageId));
+      });
+    } catch (error: any) {
+      console.error(error);
+      mixpanelService.trackError('Error', {
+        type: 'parsingError',
+        label: 'Parsing error',
+        value: error?.message || 'Unknown error',
+      });
+    }
     return functions;
   }
 
   private _getFunctionNodeTypes(languageId: SupportedLanguage): string[] {
     switch (languageId) {
       case 'javascript':
+      case 'javascriptreact':
       case 'typescript':
+      case 'typescriptreact':
         return ['function_declaration', 'method_definition', 'arrow_function'];
       case 'python':
         return ['function_definition', 'lambda'];

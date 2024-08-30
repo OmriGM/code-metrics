@@ -6,8 +6,13 @@ export interface FunctionInfo {
   color: string;
 }
 
-export type SupportedLanguage = 'javascript' | 'typescript' | 'typescriptreact' | 'python' | 'java';
-
+export type SupportedLanguage =
+  | 'javascript'
+  | 'javascriptreact'
+  | 'typescript'
+  | 'typescriptreact'
+  | 'python'
+  | 'java';
 
 // Copied from tree-sitter language bindings
 type BaseNode = {

@@ -1,6 +1,7 @@
 import * as path from 'path';
 import * as vscode from 'vscode';
 import { LINE_COUNT_THRESHOLD } from './constants';
+import { mixpanelService } from './mixpanel';
 import { CodeParser } from './parser';
 import { getNonce } from './utils';
 
@@ -50,7 +51,15 @@ export class CodeMetricsViewProvider implements vscode.WebviewViewProvider {
           this.goToLine(message.line);
           return;
         case 'openSetLineCountThreshold':
+          mixpanelService.trackEvent('Action', {
+            type: 'setLineCountThreshold',
+            label: 'Set line count threshold',
+          });
           vscode.commands.executeCommand('codeMetrics.setLineCountThreshold');
+          return;
+        case 'sendAnalytics':
+          const { eventName, eventProps } = message.value;
+          mixpanelService.trackEvent(eventName, eventProps);
           return;
       }
     });
@@ -65,6 +74,7 @@ export class CodeMetricsViewProvider implements vscode.WebviewViewProvider {
         new vscode.Range(position, position),
         vscode.TextEditorRevealType.InCenter
       );
+      mixpanelService.trackEvent('Action', { type: 'goToLine', label: 'Go to line' });
     }
   }
 
@@ -89,6 +99,14 @@ export class CodeMetricsViewProvider implements vscode.WebviewViewProvider {
     }
 
     const functions = this._parser.parseDocument(document);
+    mixpanelService.trackEvent('BackgroundAction', {
+      type: 'updatingWebview',
+      label: 'Updating webview content with new functions',
+      functionsCount: `${functions.length}`,
+      maxLinesThreshold: `${this._threshold}`,
+      languageId: document.languageId,
+    });
+
     this._view.webview.postMessage({
       type: 'update',
       functions,
@@ -113,16 +131,29 @@ export class CodeMetricsViewProvider implements vscode.WebviewViewProvider {
             <head>
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource} 'unsafe-inline '; script-src 'nonce-${nonce}'; img-src ${webview.cspSource} https:; font-src ${webview.cspSource};">
                 <title>Live Code Metrics Live</title>
                 <link rel="stylesheet" type="text/css" href="${styleUri}">
             </head>
-            <body style="padding: 8px;">
+            <body>
                 <div class="file-info-container">
                     <span class="file-info"></span>
                     <div class="line-limit"></div>
                 </div>
                 <div id="metrics-container"></div>
                 <div id="hidden-items-container"></div>
+                <script nonce="${nonce}">
+                  window.onerror = function(message, source, lineno, colno, error) {
+                    console.error('An error occurred:', message, 'at', source, lineno, colno);
+                    if (error && error.stack) {
+                      console.error('Stack trace:', error.stack);
+                    }
+                    vscode.postMessage({
+                      command: 'sendAnalytics',
+                       value: { eventName: 'Error', eventProps: {type: 'webviewLoadError', label: 'Webview loading error', value: error.message} }
+                    });
+                  };
+                </script>
                 <script nonce="${nonce}" src="${scriptUri}"></script>
             </body>
           </html>
