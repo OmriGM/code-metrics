@@ -2,7 +2,7 @@
   "name": "live-code-metric",
   "displayName": "Live Code Metrics",
   "description": "An extension that calculates code metrics for your code, helping your write more readable and maintainable code.",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "publisher": "OmriGrossman",
   "sponsor": {
     "url": "https://buymeacoffee.com/omrigr123c"
@@ -12,7 +12,7 @@
     "url": "https://github.com/OmriGM/code-metrics"
   },
   "engines": {
-    "vscode": "^1.92.0"
+    "vscode": "^1.79.0"
   },
   "categories": [
     "Programming Languages",
@@ -78,7 +78,7 @@
     "@types/lodash": "^4.17.7",
     "@types/mocha": "^10.0.1",
     "@types/node": "^16.18.105",
-    "@types/vscode": "^1.92.0",
+    "@types/vscode": "^1.79.0",
     "@typescript-eslint/eslint-plugin": "^6.4.1",
     "@typescript-eslint/parser": "^6.4.1",
     "@vscode/test-electron": "^2.3.4",

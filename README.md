@@ -37,8 +37,8 @@ Maintaining smaller, focused functions in your codebase offers numerous benefits
 ## Usage
 
 1. Open a supported file (JavaScript, TypeScript, Java, or Python)
-2. Navigate to the Explorer tab and find the "Live Code Metrics" section
-3. The extension will automatically display metrics for your open file
+   1. **Navigate to the Explorer tab and find the "Live Code Metrics" section**
+2. The extension will automatically display metrics for your open file
 
 To set a custom maximum line threshold:
 

@@ -131,7 +131,6 @@ export class CodeMetricsViewProvider implements vscode.WebviewViewProvider {
             <head>
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource} 'unsafe-inline '; script-src 'nonce-${nonce}'; img-src ${webview.cspSource} https:; font-src ${webview.cspSource};">
                 <title>Live Code Metrics Live</title>
                 <link rel="stylesheet" type="text/css" href="${styleUri}">
             </head>
@@ -150,7 +149,7 @@ export class CodeMetricsViewProvider implements vscode.WebviewViewProvider {
                     }
                     vscode.postMessage({
                       command: 'sendAnalytics',
-                       value: { eventName: 'Error', eventProps: {type: 'webviewLoadError', label: 'Webview loading error', value: error.message} }
+                       value: { eventName: 'Error', eventProps: {type: 'webviewLoadError', label: 'Webview loading error', value: error} }
                     });
                   };
                 </script>
