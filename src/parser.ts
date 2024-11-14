@@ -70,7 +70,12 @@ export class CodeParser {
       case 'javascriptreact':
       case 'typescript':
       case 'typescriptreact':
-        return ['function_declaration', 'method_definition', 'arrow_function'];
+        return [
+          'function_declaration',
+          'method_definition',
+          'arrow_function',
+          'function_expression',
+        ];
       case 'python':
         return ['function_definition', 'lambda'];
       case 'java':
@@ -110,7 +115,9 @@ export class CodeParser {
   private getFunctionName(node: Parser.SyntaxNode, languageId: SupportedLanguage): string {
     switch (languageId) {
       case 'javascript':
+      case 'javascriptreact':
       case 'typescript':
+      case 'typescriptreact':
         return this.getJavaScriptFunctionName(node);
       case 'python':
         return this.getPythonFunctionName(node);
@@ -128,6 +135,17 @@ export class CodeParser {
         return parent.childForFieldName('name')?.text || '(anonymous)';
       } else if (parent?.type === 'pair' && parent.parent?.type === 'object') {
         return parent.childForFieldName('key')?.text || '(anonymous)';
+      } else if (parent?.type === 'arguments' && parent.parent?.type === 'call_expression') {
+        // Handle map callback case
+        const assignmentParent =
+          parent.parent.closest('assignment_expression') ||
+          parent.parent.closest('variable_declarator');
+        if (assignmentParent) {
+          return assignmentParent.childForFieldName('name')?.text || '(anonymous)';
+        }
+      } else if (parent?.type === 'property_definition' && parent.parent?.type === 'object') {
+        // Handle event handler functions in JSX/React components
+        return parent.childForFieldName('name')?.text || '(anonymous)';
       }
       return '(anonymous)';
     }

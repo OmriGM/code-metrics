@@ -137,7 +137,10 @@ export class CodeMetricsViewProvider implements vscode.WebviewViewProvider {
             <body>
                 <div class="file-info-container">
                     <span class="file-info"></span>
-                    <div class="line-limit"></div>
+                    <div class="file-info-actions">
+                      <div class="line-limit"></div>
+                      <div class="donation"></div>
+                    </div>
                 </div>
                 <div id="metrics-container"></div>
                 <div id="hidden-items-container"></div>
