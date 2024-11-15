@@ -12,7 +12,10 @@ export type SupportedLanguage =
   | 'typescript'
   | 'typescriptreact'
   | 'python'
-  | 'java';
+  | 'java'
+  | 'go'
+  | 'rust'
+  | 'php';
 
 // Copied from tree-sitter language bindings
 type BaseNode = {

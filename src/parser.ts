@@ -2,6 +2,9 @@ import Parser from 'tree-sitter';
 import Java from 'tree-sitter-java';
 import JavaScript from 'tree-sitter-javascript';
 import Python from 'tree-sitter-python';
+import Go from 'tree-sitter-go';
+import Rust from 'tree-sitter-rust';
+import PHP from 'tree-sitter-php';
 import * as vscode from 'vscode';
 import {
   GREEN_THRESHOLD,
@@ -12,6 +15,8 @@ import {
 import { FunctionInfo, Language, SupportedLanguage } from './types';
 import { mixpanelService } from './mixpanel';
 const { tsx, typescript } = require('tree-sitter-typescript'); // Used require instead of import to avoid TypeScript error TS2714
+
+const { php } = PHP;
 
 export class CodeParser {
   private parser: Parser;
@@ -26,6 +31,9 @@ export class CodeParser {
       typescriptreact: tsx,
       python: Python,
       java: Java,
+      go: Go,
+      rust: Rust,
+      php,
     };
   }
 
@@ -80,6 +88,12 @@ export class CodeParser {
         return ['function_definition', 'lambda'];
       case 'java':
         return ['method_declaration', 'constructor_declaration'];
+      case 'go':
+        return ['function_declaration', 'method_declaration'];
+      case 'rust':
+        return ['function_item', 'method_item'];
+      case 'php':
+        return ['function_declaration', 'method_declaration'];
       default:
         return [];
     }
@@ -123,6 +137,12 @@ export class CodeParser {
         return this.getPythonFunctionName(node);
       case 'java':
         return this.getJavaFunctionName(node);
+      case 'go':
+        return this.getGoFunctionName(node);
+      case 'rust':
+        return this.getRustFunctionName(node);
+      case 'php':
+        return this.getPhpFunctionName(node);
       default:
         return '(unknown)';
     }
@@ -163,6 +183,18 @@ export class CodeParser {
     if (node.type === 'constructor_declaration') {
       return '(constructor)';
     }
+    return node.childForFieldName('name')?.text || '(anonymous)';
+  }
+
+  private getGoFunctionName(node: Parser.SyntaxNode): string {
+    return node.childForFieldName('name')?.text || '(anonymous)';
+  }
+
+  private getRustFunctionName(node: Parser.SyntaxNode): string {
+    return node.childForFieldName('name')?.text || '(anonymous)';
+  }
+
+  private getPhpFunctionName(node: Parser.SyntaxNode): string {
     return node.childForFieldName('name')?.text || '(anonymous)';
   }
 }
