@@ -4,7 +4,6 @@ import JavaScript from 'tree-sitter-javascript';
 import Python from 'tree-sitter-python';
 import Go from 'tree-sitter-go';
 import Rust from 'tree-sitter-rust';
-import PHP from 'tree-sitter-php';
 import * as vscode from 'vscode';
 import {
   GREEN_THRESHOLD,
@@ -16,7 +15,7 @@ import { FunctionInfo, Language, SupportedLanguage } from './types';
 import { mixpanelService } from './mixpanel';
 const { tsx, typescript } = require('tree-sitter-typescript'); // Used require instead of import to avoid TypeScript error TS2714
 
-const { php } = PHP;
+const { php } = require('tree-sitter-php'); // Used require instead of import to avoid TypeScript error TS2714
 
 export class CodeParser {
   private parser: Parser;
