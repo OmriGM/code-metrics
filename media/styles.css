@@ -269,3 +269,189 @@ body {
 .show-button:hover {
   background-color: var(--vscode-button-secondaryHoverBackground);
 }
+
+/* Sort Controls */
+.sort-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  margin-bottom: 0;
+  border: none;
+}
+
+.sort-label {
+  color: var(--vscode-descriptionForeground);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.sort-btn {
+  background: var(--vscode-button-background);
+  color: var(--vscode-button-foreground);
+  border: 1px solid var(--vscode-button-border);
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sort-btn:hover {
+  background: var(--vscode-button-hoverBackground);
+}
+
+.sort-btn.active {
+  background: var(--vscode-button-secondaryBackground);
+  color: var(--vscode-button-secondaryForeground);
+  border-color: var(--vscode-focusBorder);
+}
+
+/* --- HEADER REDESIGN --- */
+.cm-header {
+  background: var(--vscode-sideBar-background);
+  border-bottom: 1px solid var(--vscode-editorIndentGuide-activeBackground);
+  padding-bottom: 12px;
+  border-radius: 8px 8px 0 0;
+  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.03);
+}
+
+.cm-header-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  width: 105%;
+  gap: 8px
+}
+
+.sort-controls-buttons{
+  display: flex;
+  gap: 8px;
+}
+
+.file-info {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--vscode-editor-foreground);
+}
+
+.file-info-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.line-limit {
+  font-size: 13px;
+  color: var(--vscode-descriptionForeground);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.donate-container {
+  display: flex;
+  justify-content: center;
+  width: 105%;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #5f5f5f;
+  padding-bottom: 8px;
+}
+
+.donate-link {
+  color: var(--vscode-textLink-foreground);
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: underline;
+  transition: color 0.2s;
+}
+.donate-link:hover {
+  color: var(--vscode-textLink-activeForeground);
+}
+
+.donate-phrase {
+  font-size: 13px;
+  color: var(--vscode-descriptionForeground);
+  font-weight: 500;
+  margin-right: 8px;
+  display: flex;
+  align-items: center;
+}
+
+/* --- SORT CONTROLS --- */
+.sort-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  margin-bottom: 0;
+  border: none;
+  justify-content: space-between;
+}
+
+.sort-label {
+  color: var(--vscode-descriptionForeground);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.sort-btn {
+  background: var(--vscode-button-secondaryBackground);
+  color: var(--vscode-button-foreground);
+  border: 1px solid var(--vscode-button-border);
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sort-btn:hover {
+  background: var(--vscode-button-hoverBackground);
+}
+
+.sort-btn.active {
+  background: var(--vscode-button-background);
+  color: var(--vscode-button-secondaryForeground);
+  border-color: var(--vscode-focusBorder);
+}
+
+/* --- END HEADER REDESIGN --- */
+
+@media (max-width: 160px) {
+  .line-limit {
+    font-size: 0;
+    gap: 0;
+  }
+  .line-limit div {
+    display: flex;
+    align-items: center;
+    font-size: 0;
+  }
+  .line-limit div svg, .line-limit div:before {
+    font-size: 18px;
+    margin-right: 0;
+  }
+  .line-limit div:after {
+    display: none;
+  }
+}
+
+.line-limit.minimized-text div {
+  font-size: 0;
+}
+.line-limit.minimized-text div svg, .line-limit.minimized-text div:before {
+  font-size: 18px;
+  margin-right: 0;
+}
+.line-limit.minimized-text div:after {
+  display: none;
+}

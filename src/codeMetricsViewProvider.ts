@@ -1,9 +1,9 @@
 import * as path from 'path';
 import * as vscode from 'vscode';
-import { LINE_COUNT_THRESHOLD } from './constants';
-import { mixpanelService } from './mixpanel';
-import { CodeParser } from './parser';
-import { getNonce } from './utils';
+import {LINE_COUNT_THRESHOLD} from './constants';
+import {mixpanelService} from './mixpanel';
+import {CodeParser} from './parser';
+import {getNonce} from './utils';
 
 export class CodeMetricsViewProvider implements vscode.WebviewViewProvider {
   public static readonly viewType = 'codeMetrics.metricsView';
@@ -58,7 +58,7 @@ export class CodeMetricsViewProvider implements vscode.WebviewViewProvider {
           vscode.commands.executeCommand('codeMetrics.setLineCountThreshold');
           return;
         case 'sendAnalytics':
-          const { eventName, eventProps } = message.value;
+          const {eventName, eventProps} = message.value;
           mixpanelService.trackEvent(eventName, eventProps);
           return;
       }
@@ -74,7 +74,7 @@ export class CodeMetricsViewProvider implements vscode.WebviewViewProvider {
         new vscode.Range(position, position),
         vscode.TextEditorRevealType.InCenter
       );
-      mixpanelService.trackEvent('Action', { type: 'goToLine', label: 'Go to line' });
+      mixpanelService.trackEvent('Action', {type: 'goToLine', label: 'Go to line'});
     }
   }
 
@@ -135,12 +135,27 @@ export class CodeMetricsViewProvider implements vscode.WebviewViewProvider {
                 <link rel="stylesheet" type="text/css" href="${styleUri}">
             </head>
             <body>
-                <div class="file-info-container">
+                <div class="cm-header">
+                <div class="donate-container">
+                  <span class="donate-phrase" id="donate-phrase"></span>
+                  <a class="donate-link" href="https://www.buymeacoffee.com/omrigr123c" target="_blank" rel="noopener noreferrer">Donate</a>
+                </div>
+                  <div class="cm-header-main">
                     <span class="file-info"></span>
                     <div class="file-info-actions">
                       <div class="line-limit"></div>
-                      <div class="donation"></div>
                     </div>
+                  </div>
+                  <div class="sort-controls">
+                  <div>
+                    <span class="sort-label">Sort by length:</span>
+                    </div>
+                    <div class="sort-controls-buttons">
+                    <button id="sort-default" class="sort-btn active" onclick="setSortOrder('default')">↔️</button>
+                    <button id="sort-asc" class="sort-btn" onclick="setSortOrder('asc')">⬆️</button>
+                    <button id="sort-desc" class="sort-btn" onclick="setSortOrder('desc')">⬇️</button>
+                    </div>
+                  </div>
                 </div>
                 <div id="metrics-container"></div>
                 <div id="hidden-items-container"></div>

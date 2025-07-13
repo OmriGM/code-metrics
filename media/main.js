@@ -28,18 +28,42 @@ const FEATURE_FLAGS = {
 const vscode = acquireVsCodeApi();
 let hiddenItems = [];
 let isHiddenListCollapsed = true;
+let currentSortOrder = "default";
+let originalFunctions = [];
+let currentFunctions = [];
+
+// --- Donate phrase randomizer and tracking ---
+const donatePhrases = [
+  "Fuel the project 🚀",
+  "Show some ❤️",
+  "Help it grow!",
+  "Support future features!",
+];
+let currentDonatePhrase = donatePhrases[Math.floor(Math.random() * donatePhrases.length)];
+
+window.addEventListener("DOMContentLoaded", () => {
+  const phraseSpan = document.getElementById("donate-phrase");
+  if (phraseSpan) phraseSpan.textContent = currentDonatePhrase;
+
+  const donateLink = document.querySelector(".donate-link");
+  if (donateLink) {
+    donateLink.addEventListener("click", () => {
+      sendAnalytics("donationLinkClicked", { source: "link", phrase: currentDonatePhrase });
+    });
+  }
+});
 
 // Listen to window resize events and set width of the metrics container
-window.addEventListener('resize', () => {
-  const metricsContainer = document.getElementById('metrics-container');
+window.addEventListener("resize", () => {
+  const metricsContainer = document.getElementById("metrics-container");
   metricsContainer.style.width = `${window.innerWidth - 22}px`;
 });
 
 // Listen for messages from the extension
-window.addEventListener('message', (event) => {
+window.addEventListener("message", (event) => {
   const message = event.data;
   switch (message.type) {
-    case 'update':
+    case "update":
       const { functions, fileName, totalLines, maxLinesThreshold } = message;
       hiddenItems = [];
       updateContent({ functions, fileName, totalLines, maxLinesThreshold });
@@ -47,44 +71,32 @@ window.addEventListener('message', (event) => {
   }
 });
 
-function updateContent({ functions, fileName, totalLines, maxLinesThreshold }) {
-  if (!functions || functions.length === 0) {
-    document.querySelector('.file-info').textContent = `No active code editor found`;
-    document.querySelector('.line-limit').textContent = '';
-    document.querySelector('.donation').textContent = '';
-    document.getElementById('metrics-container').innerHTML = '';
-    return;
+function setSortOrder(order) {
+  currentSortOrder = order;
+
+  // Update button states
+  document.querySelectorAll(".sort-btn").forEach((btn) => btn.classList.remove("active"));
+  document.getElementById(`sort-${order}`).classList.add("active");
+
+  // Re-render with new sort order
+  const sortedFunctions = getSortedFunctions(currentFunctions);
+  const maxLinesThreshold = parseInt(
+    document.querySelector(".line-limit div").textContent.match(/\d+/)[0]
+  );
+  renderFunctions(sortedFunctions, maxLinesThreshold);
+}
+
+function getSortedFunctions(functions) {
+  if (currentSortOrder === "asc") {
+    return [...functions].sort((a, b) => a.lineCount - b.lineCount);
+  } else if (currentSortOrder === "desc") {
+    return [...functions].sort((a, b) => b.lineCount - a.lineCount);
   }
+  return [...originalFunctions]; // default order
+}
 
-  if (totalLines > maxLinesThreshold) {
-    document.body.classList.add('warning');
-  } else {
-    document.body.classList.remove('warning');
-  }
-
-  document.querySelector('.file-info').textContent = `File: ${fileName} (${totalLines} lines)`;
-  document.querySelector('.line-limit').innerHTML = `
-    <div onclick="changeMaxLines()">
-      ${pencilIcon}
-      Max lines: ${maxLinesThreshold}
-    </div>
-    `;
-
-  document.querySelector('.donation').innerHTML = `
-    <a
-      href="https://www.buymeacoffee.com/omrigr123c"
-      target="_blank"
-      rel="noopener noreferrer"
-      id="donate-link"
-      onclick="openLink()"
-    >
-      ${buyMeACoffeeIcon}
-    </a>
-    `;
-
-  updateHiddenItemsList();
-
-  const container = document.getElementById('metrics-container');
+function renderFunctions(functions, maxLinesThreshold) {
+  const container = document.getElementById("metrics-container");
   container.innerHTML = functions
     .map(
       ({ color, name, startLine, endLine, lineCount }, index) => `
@@ -103,42 +115,76 @@ function updateContent({ functions, fileName, totalLines, maxLinesThreshold }) {
                   ${
                     FEATURE_FLAGS.hiddenFiles
                       ? `<button class="hide-button" onclick="hideCard(${index}, '${name}', ${lineCount})">Hide</button>`
-                      : ''
+                      : ""
                   }
                 </div>
                 </div>
             </div>
           `
     )
-    .join('');
+    .join("");
+}
+
+function updateContent({ functions, fileName, totalLines, maxLinesThreshold }) {
+  if (!functions || functions.length === 0) {
+    document.querySelector(".file-info").textContent = `No active code editor found`;
+    document.querySelector(".line-limit").textContent = "";
+    document.querySelector(".donation").textContent = "";
+    document.getElementById("metrics-container").innerHTML = "";
+    return;
+  }
+
+  if (totalLines > maxLinesThreshold) {
+    document.body.classList.add("warning");
+  } else {
+    document.body.classList.remove("warning");
+  }
+
+  document.querySelector(".file-info").textContent = `${fileName} (${totalLines} lines)`;
+  document.querySelector(".line-limit").innerHTML = `
+    <div onclick="changeMaxLines()">
+      ${pencilIcon}
+      Max lines: ${maxLinesThreshold}
+    </div>
+    `;
+
+  updateHiddenItemsList();
+
+  // Store the functions data
+  originalFunctions = [...functions];
+  currentFunctions = [...functions];
+
+  // Render functions with current sort order
+  const sortedFunctions = getSortedFunctions(currentFunctions);
+  renderFunctions(sortedFunctions, maxLinesThreshold);
 }
 
 function goToLine(line) {
   vscode.postMessage({
-    command: 'goToLine',
+    command: "goToLine",
     line: line,
   });
 }
 function changeMaxLines() {
   vscode.postMessage({
-    command: 'openSetLineCountThreshold',
+    command: "openSetLineCountThreshold",
   });
 }
 
 function sendAnalytics(eventName, eventProps) {
   vscode.postMessage({
-    command: 'sendAnalytics',
+    command: "sendAnalytics",
     value: { eventName, eventProps },
   });
 }
 
 function openLink() {
-  sendAnalytics('donationLinkClicked', { source: 'link' });
+  sendAnalytics("donationLinkClicked", { source: "link" });
 }
 
 function hideCard(index, name, lineCount) {
   const card = document.getElementById(`card-${index}`);
-  card.style.display = 'none';
+  card.style.display = "none";
   hiddenItems.push({ index, name, lineCount });
   updateHiddenItemsList();
 }
@@ -147,7 +193,7 @@ function showCard(index) {
   event.stopPropagation(); // Prevent the card click event from firing
 
   const card = document.getElementById(`card-${index}`);
-  card.style.display = 'block';
+  card.style.display = "block";
   hiddenItems = hiddenItems.filter((item) => item.index !== index);
   updateHiddenItemsList();
 }
@@ -168,18 +214,18 @@ function updateHiddenItemsList() {
   if (!FEATURE_FLAGS.hiddenFiles) {
     return;
   }
-  const hiddenItemsContainer = document.getElementById('hidden-items-container');
+  const hiddenItemsContainer = document.getElementById("hidden-items-container");
 
   hiddenItemsContainer.innerHTML = `
   <div class="hidden-items-header" onclick="toggleHiddenList()">
         <h3>Hidden Items (${hiddenItems.length})</h3>
       ${
         hiddenItems.length > 0
-          ? `<span class="collapse-icon">${isHiddenListCollapsed ? '▼' : '▲'}</span>`
-          : ''
+          ? `<span class="collapse-icon">${isHiddenListCollapsed ? "▼" : "▲"}</span>`
+          : ""
       }
       </div>
-      <div class="hidden-items-list" style="display: ${isHiddenListCollapsed ? 'none' : 'block'}">
+      <div class="hidden-items-list" style="display: ${isHiddenListCollapsed ? "none" : "block"}">
         ${hiddenItems
           .map(
             (item) => `
@@ -194,7 +240,19 @@ function updateHiddenItemsList() {
           </div>
         `
           )
-          .join('')}
+          .join("")}
       </div>
         `;
 }
+
+// Responsive: show only pencil icon when narrow
+function updateLineLimitResponsive() {
+  const lineLimit = document.querySelector(".line-limit");
+  if (window.innerWidth <= 160) {
+    lineLimit.classList.add("minimized-text");
+  } else {
+    lineLimit.classList.remove("minimized-text");
+  }
+}
+window.addEventListener("resize", updateLineLimitResponsive);
+updateLineLimitResponsive();
