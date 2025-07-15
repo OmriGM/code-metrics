@@ -73,6 +73,7 @@ window.addEventListener("message", (event) => {
 
 function setSortOrder(order) {
   currentSortOrder = order;
+  sendAnalytics("sortButtonClicked", { order });
 
   // Update button states
   document.querySelectorAll(".sort-btn").forEach((btn) => btn.classList.remove("active"));

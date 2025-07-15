@@ -2,7 +2,7 @@
   "name": "live-code-metric",
   "displayName": "Live Code Metrics",
   "description": "An extension that calculates code metrics for your code, helping your write more readable and maintainable code.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "OmriGrossman",
   "sponsor": {
     "url": "https://buymeacoffee.com/omrigr123c"

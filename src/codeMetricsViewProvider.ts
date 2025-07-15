@@ -165,10 +165,10 @@ export class CodeMetricsViewProvider implements vscode.WebviewViewProvider {
                     if (error && error.stack) {
                       console.error('Stack trace:', error.stack);
                     }
-                    vscode.postMessage({
-                      command: 'sendAnalytics',
-                       value: { eventName: 'Error', eventProps: {type: 'webviewLoadError', label: 'Webview loading error', value: error} }
-                    });
+                    // vscode.postMessage({
+                    //   command: 'sendAnalytics',
+                    //    value: { eventName: 'Error', eventProps: {type: 'webviewLoadError', label: 'Webview loading error', value: error} }
+                    // });
                   };
                 </script>
                 <script nonce="${nonce}" src="${scriptUri}"></script>

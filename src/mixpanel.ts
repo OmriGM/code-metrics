@@ -24,10 +24,10 @@ export const mixpanelService = {
   },
   trackError: (eventName: string, eventProperties: Record<string, string>) => {
     if (mixpanelInstance) {
-      mixpanelInstance.track(eventName, {
-        ...eventProperties,
-        is_error: true,
-      });
+      // mixpanelInstance.track(eventName, {
+      //   ...eventProperties,
+      //   is_error: true,
+      // });
     } else {
       console.warn('Mixpanel has not been initialized');
     }
